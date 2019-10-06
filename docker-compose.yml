@@ -1,0 +1,46 @@
+version: "3.1"
+services:
+  nginx-router:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx_router
+    ports:
+      - "8800:80"
+    depends_on:
+      - frontend
+      - backend
+
+  postgres:
+    image: "postgres:latest"
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+      - ./postgres_conf:/app
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx_router/frontend
+    volumes:
+      - /app/node_modules
+      - ./nginx_router/frontend:/app
+
+  backend:
+    build:
+      context: ./nginx_router/backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      # settings files must be perserved from build,
+      # container must be rebuild if settings is changed
+      # or anything in the synth_project directory
+      - /app/synth_project/
+      - ./nginx_router/backend:/app
+    depends_on:
+      - postgres
+    environment:
+      - PGDATABASE=brandless_dev
+      # should be in a secret in prod but for dev were just testing locally so this is how its set up
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+      - PGHOST=postgres
+      - PGUSER=postgres_user
