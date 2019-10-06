@@ -9,17 +9,11 @@ import Nav from "react-bootstrap/Nav";
 import * as ROUTES from "../../constants/routes";
 import * as NAMES from "../../constants/names";
 
-import { AuthUserContext } from "../Session";
-
-const Navigation = ({ authUser }) => (
-  <AuthUserContext.Consumer>
-    {authUser => (authUser ? <NavigationAuth /> : <NavigationNonAuth />)}
-  </AuthUserContext.Consumer>
-);
+// TODO implement returning a NavigationNonAuth once user management is implemented
+const Navigation = () => <NavigationAuth />;
 
 const INITIAL_STATE = {
-  searchQuery: "",
-  problemQuerySet: []
+  auth: true
 };
 
 class NavigationAuth extends React.Component {
@@ -42,20 +36,8 @@ class NavigationAuth extends React.Component {
         </Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link>
-            <Link className="Nav-bar-link" to={ROUTES.LEADERBOARD}>
-              Leaderboard
-            </Link>
-          </Nav.Link>
-
-          <Nav.Link>
-            <Link className="Nav-bar-link" to={ROUTES.PROBLEMS}>
-              Problems
-            </Link>
-          </Nav.Link>
-
-          <Nav.Link>
-            <Link className="Nav-bar-link" to={ROUTES.ACCOUNT}>
-              Account
+            <Link className="Nav-bar-link" to={ROUTES.SLEEP_CHARTS}>
+              My Sleep
             </Link>
           </Nav.Link>
         </Nav>
@@ -63,22 +45,5 @@ class NavigationAuth extends React.Component {
     );
   }
 }
-
-const NavigationNonAuth = () => (
-  <Navbar sticky="top" bg="light" variant="light">
-    <Navbar.Brand>
-      <Link className="Nav-bar-link" to={ROUTES.LANDING}>
-        {NAMES.APP_NAME}
-      </Link>
-    </Navbar.Brand>
-    <Nav className="mr-auto">
-      <Nav.Link>
-        <Link className="Nav-bar-link" to={ROUTES.SIGN_IN}>
-          Sign In
-        </Link>
-      </Nav.Link>
-    </Nav>
-  </Navbar>
-);
 
 export default Navigation;

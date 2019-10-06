@@ -3,20 +3,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Navigation from "../Navigation";
 import LandingPage from "../Landing";
-import SignUpPage from "../SignUp";
-import SignInPage from "../SignIn";
-import PasswordForgetPage from "../PasswordForget";
-import ProblemsPage from "../Problems";
-import ProblemPage from "../Problem";
-import LeaderboardPage from "../Leaderboard";
-import AccountPage from "../Account";
-import AdminPage from "../Admin";
+import SleepChartPage from "../Sleep";
 import * as ROUTES from "../../constants/routes";
-
-import { withAuthentication, withPGUserProvider } from "../Session";
-
-import { compose } from "recompose";
-import { withUidTokenProvider } from "../UidToken";
 
 class App extends Component {
   render() {
@@ -25,24 +13,10 @@ class App extends Component {
         <div>
           <Navigation />
           <Route exact path={ROUTES.LANDING} component={LandingPage} />
-          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-          <Route path={ROUTES.PROBLEMS} component={ProblemsPage} />
-          <Route path={ROUTES.LEADERBOARD} component={LeaderboardPage} />
-          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-          <Route path={ROUTES.ADMIN} component={AdminPage} />
-          <Route
-            path={ROUTES.PROBLEM}
-            render={props => <ProblemPage {...props} />}
-          />
+          <Route path={ROUTES.SLEEP_CHARTS} component={SleepChartPage} />
         </div>
       </Router>
     );
   }
 }
-export default compose(
-  withAuthentication,
-  withPGUserProvider,
-  withUidTokenProvider
-)(App);
+export default App;
