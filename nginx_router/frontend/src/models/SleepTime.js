@@ -26,7 +26,7 @@ class SleepTime {
   }
 
   static getHoursSlept(totalMinutesSlept) {
-    return Math.round(totalMinutesSlept / 60);
+    return Math.floor(totalMinutesSlept / 60);
   }
 
   static getMinutesSlept(totalMinutes, roundedHours) {
