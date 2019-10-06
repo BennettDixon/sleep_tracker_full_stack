@@ -1,12 +1,3 @@
 export const LANDING = "/";
-export const SIGN_UP = "/signup";
-export const SIGN_IN = "/signin";
-export const LEADERBOARD = "/leaderboard";
-export const ACCOUNT = "/account";
-export const ADMIN = "/admin";
-export const PASSWORD_FORGET = "/pw-forget";
-export const TERMINAL_PANEL = "/terminal-panel";
 export const GRAPHQL_API = "/graphql/v1/";
-export const USER = "/users";
-export const PROBLEMS = "/problems";
-export const PROBLEM = "/problem/:id";
+export const SLEEP_CHARTS = "/sleep/charts";
