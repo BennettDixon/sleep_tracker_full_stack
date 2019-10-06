@@ -64,6 +64,12 @@ class Query(ObjectType):
 
         return None
 
+    def resolve_users(self, info, **kwargs):
+        """
+            grabs all users
+        """
+        return User.objects.all()
+
     def resolve_sleep_time(self, info, **kwargs):
         """
             graphene expects a reolver to take the graphql context
