@@ -18,7 +18,9 @@ const SleepChart = ({ sleepTimes }) => {
     const remainderMinutes = minutesSlept - hoursSlept * 60;
     return (
       <li key={sleepTime.id}>
-        Hours: {hoursSlept}...Minutes: {remainderMinutes}
+        Hours: {hoursSlept}
+        <br />
+        Minutes: {remainderMinutes}
       </li>
     );
   });
@@ -61,8 +63,11 @@ class SleepChartPage extends React.Component {
     return this.props.uid &&
       this.state.sleepTimes &&
       this.state.sleepTimes.length > 0 ? (
-      <div>
-        <SleepChart sleepTimes={this.state.sleepTimes} />
+      <div className="horizontal-center fill">
+        <SleepChart
+          className="vertical-center"
+          sleepTimes={this.state.sleepTimes}
+        />
       </div>
     ) : (
       <LoadingPage />
