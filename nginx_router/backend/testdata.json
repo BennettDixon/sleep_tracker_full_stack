@@ -1,10 +1,9 @@
 [
   {
-    "model": "synth_app.Skill",
+    "model": "synth_app.User",
     "pk": 1,
     "fields": {
-      "name": "Django child process'",
-      "short_description": "lorem ipsum some text about this container and the problem yada yada."
+      "email": "testuser@testemail.com"
     }
   }
 ]
