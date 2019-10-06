@@ -12,7 +12,7 @@ const WeekChart = ({ sleepTimes }) => {
   });
   return (
     <div>
-      <h1>Weeks</h1>
+      <h1>This Week</h1>
       <ul>{sleepMap}</ul>
     </div>
   );

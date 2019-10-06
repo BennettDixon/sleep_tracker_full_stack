@@ -5,7 +5,7 @@ import { SleepTimeText, SmallTimeText, TimeLabel } from "../TimeText";
 const DayChart = ({ sleepTime }) => {
   return (
     <div>
-      <h1>Days</h1>
+      <h1>Yesterday</h1>
       <div>
         <TimeLabel label="Time Slept" />
         <SleepTimeText

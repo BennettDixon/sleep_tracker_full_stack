@@ -12,7 +12,7 @@ const MonthChart = ({ sleepTimes }) => {
   });
   return (
     <div>
-      <h1>Months</h1>
+      <h1>This Month</h1>
       <ul>{sleepMap}</ul>
     </div>
   );
