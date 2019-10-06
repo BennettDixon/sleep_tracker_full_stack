@@ -1,0 +1,2 @@
+export const EMAIL_NOT_VERIFIED = 445;
+export const PROBLEM_PROGRESS_MISSING = 430;

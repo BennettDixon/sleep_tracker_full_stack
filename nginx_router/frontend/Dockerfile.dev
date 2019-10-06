@@ -1,0 +1,11 @@
+# node alpine image setup
+FROM node:alpine
+WORKDIR '/app'
+# package install
+COPY ./package.json ./
+RUN npm install -g npm@latest && \
+    npm install
+# copy rest in second step for cached packages img
+COPY ./ ./
+EXPOSE 3000
+CMD ["npm", "run", "start"]

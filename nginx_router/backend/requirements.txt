@@ -1,0 +1,7 @@
+Django
+gunicorn
+graphene_django
+psycopg2
+requests
+firebase-admin
+django-cors-headers

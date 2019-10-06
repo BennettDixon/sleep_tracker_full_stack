@@ -1,0 +1,10 @@
+[
+  {
+    "model": "synth_app.Skill",
+    "pk": 1,
+    "fields": {
+      "name": "Django child process'",
+      "short_description": "lorem ipsum some text about this container and the problem yada yada."
+    }
+  }
+]
