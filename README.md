@@ -32,7 +32,7 @@ docker ps
 
 You can either use the name of the container or the id of the container to substitute in the next portion. The name should be something like `tellus_takehome_postgres_1` and is under the `NAMES` column, the id is under `CONTAINER ID` and is a random alpha-numeric hash.
 
-Execute the following, substituting your postgres container id. This will setup a user and database in your postgres container. You only need to do this once unless you delete the docker-compose volume mount or the postgres data on your local machine.
+Execute the following, substituting your postgres container id or container name. This will setup a user and database in your postgres container. You only need to do this once unless you delete the docker-compose volume mount or the postgres data on your local machine.
 
 ```
 docker exec -it <container-id/name> psql -U postgres -f /app/pgsetup.sql
