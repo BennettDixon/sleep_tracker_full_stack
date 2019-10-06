@@ -1,19 +1,25 @@
 import React from "react";
 
+import { SleepTimeText } from "../TimeText";
+
+import SleepTime from "../../models/SleepTime";
+
 const WeekChart = ({ sleepTimes }) => {
-  const sleepMap = sleepTimes.map(sleepTime => {
-    return (
-      <li key={sleepTime.id}>
-        Hours: {sleepTime.hoursSlept}
-        <br />
-        Minutes: {sleepTime.minutesSlept}
-      </li>
-    );
+  var totalMinutesSlept = 0;
+
+  sleepTimes.forEach(sleepTime => {
+    totalMinutesSlept += sleepTime.totalMinutesSlept;
   });
+  var avgTotalMinutes = Math.round(totalMinutesSlept / sleepTimes.length);
+  console.log("gopt avg mins: " + avgTotalMinutes);
+  var avgHours = SleepTime.getHoursSlept(avgTotalMinutes);
+  console.log("got avg hours: " + avgHours);
+  var avgMinutes = SleepTime.getMinutesSlept(avgTotalMinutes, avgHours);
+  console.log("got avgggggg minutes: " + avgMinutes);
   return (
     <div>
       <h1>This Week</h1>
-      <ul>{sleepMap}</ul>
+      <SleepTimeText hours={avgHours} minutes={avgMinutes} />
     </div>
   );
 };
