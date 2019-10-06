@@ -1,19 +1,23 @@
 import React from "react";
 
-import { SleepTimeText, SmallTimeText } from "../TimeText";
+import { SleepTimeText, SmallTimeText, TimeLabel } from "../TimeText";
 
 const DayChart = ({ sleepTime }) => {
   return (
     <div>
       <h1>Days</h1>
       <div>
-        <span className="time-label">TIME ASLEEP</span>
+        <TimeLabel label="Time Slept" />
         <SleepTimeText
           hours={sleepTime.hoursSlept}
           minutes={sleepTime.minutesSlept}
         />
-        <span className="time-label">IN BED AT</span>
+
+        <TimeLabel label="In bed at" />
         <SmallTimeText date={sleepTime.start} />
+
+        <TimeLabel label="In bed until" />
+        <SmallTimeText date={sleepTime.stop} />
       </div>
     </div>
   );
