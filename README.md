@@ -1,6 +1,6 @@
 ## welcome.
 
-Welcome to my demo for the take home challenge! It uses `docker` & `docker-compose` to make your life for setting it up extremely easy. These are the only dependencies you need for this projject. Head over to (mac)[https://docs.docker.com/docker-for-mac/install/](windows)[https://docs.docker.com/docker-for-windows/install/] and grab a copy of docker if you don't have these utilities already. Depending on your OS you may have to install compose seperately, if that's the case head here ()[https://docs.docker.com/compose/install/].
+Welcome to my demo for the take home challenge! It uses `docker` & `docker-compose` to make your life for setting it up extremely easy. These are the only dependencies you need for this projject. Head over to [mac](https://docs.docker.com/docker-for-mac/install/) [windows](https://docs.docker.com/docker-for-windows/install/) and grab a copy of docker if you don't have these utilities already. Depending on your OS you may have to install compose seperately, if that's the case head [here](https://docs.docker.com/compose/install/).
 
 ## :wrench: Setup
 
