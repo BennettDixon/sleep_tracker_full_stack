@@ -11,7 +11,9 @@ import MonthChart from "./MonthChart";
 import { withApollo } from "../Apollo";
 import { withUid } from "../UidContext";
 
-import { sleep, getDateTime } from "../../constants/utils";
+import { sleep } from "../../constants/utils";
+
+import SleepTime from "../../models/SleepTime";
 
 import { compose } from "recompose";
 
@@ -117,11 +119,11 @@ class SleepChartPage extends React.Component {
     this.props.apollo.getUserSleepTimes(this.props.uid).then(resp => {
       const sleepTimes = resp.data.userSleepTimes;
       // convert the sleepTimes we fetched from json strings to Date objects
+      var convertedTimes = [];
       sleepTimes.forEach(sleepTime => {
-        sleepTime.start = getDateTime(sleepTime.start);
-        sleepTime.stop = getDateTime(sleepTime.stop);
+        convertedTimes.push(new SleepTime(sleepTime.start, sleepTime.stop));
       });
-      this.setState({ sleepTimes });
+      this.setState({ sleepTimes: convertedTimes });
     });
   }
 
