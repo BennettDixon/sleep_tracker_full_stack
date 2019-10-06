@@ -1,0 +1,26 @@
+.date-span-button {
+    width: 100%;
+    background-color: white;
+    color: #007bff;
+}
+
+.date-span-button:active {
+    background-color: #007bff;
+    color: white;
+}
+
+.date-span-button:focus {
+    color: orange
+}
+
+.date-span-button:focus:active {
+    font-weight: bold;
+}
+
+.date-span-group {
+    width: 100%;
+}
+
+.sleep-chart-container {
+    width: 50%;
+}

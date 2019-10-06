@@ -1,5 +1,8 @@
 import React from "react";
 
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
+
 import LoadingPage from "../LoadingPage";
 
 import { withApollo } from "../Apollo";
@@ -9,28 +12,92 @@ import { sleep, getDateTime } from "../../constants/utils";
 
 import { compose } from "recompose";
 
-// Reuseable SleepChart component
-const SleepChart = ({ sleepTimes }) => {
-  const sleepMap = sleepTimes.map(sleepTime => {
-    const milisecondsSlept = sleepTime.stop - sleepTime.start;
-    // TOTAL minutes slept
-    const minutesSlept = Math.round(milisecondsSlept / 1000 / 60);
-    // ROUNDED hours slept
-    const hoursSlept = Math.round(minutesSlept / 60);
-    // REMAINING minutes (from hours round)
-    const remainderMinutes = minutesSlept - hoursSlept * 60;
-    return (
-      <li key={sleepTime.id}>
-        Hours: {hoursSlept}
-        <br />
-        Minutes: {remainderMinutes}
-      </li>
-    );
-  });
-  return <ul>{sleepMap}</ul>;
+import "./SleepChart.css";
+
+const VIEW_MODES = {
+  DAY: 1,
+  WEEK: 2,
+  MONTH: 3
 };
 
-const INITIAL_STATE = {
+var INITIAL_STATE = {
+  sleepTimes: [],
+  viewMode: VIEW_MODES.DAY
+};
+
+// Reuseable SleepChart component
+class SleepChart extends React.Component {
+  constructor(props) {
+    super(props);
+    // if passed via props
+    if (props.sleepTimes !== undefined) {
+      INITIAL_STATE.sleepTimes = props.sleepTimes;
+    }
+    this.state = INITIAL_STATE;
+  }
+
+  setViewMode = (mode, event) => {
+    this.setState({ viewMode: mode });
+  };
+
+  render() {
+    const sleepMap = this.state.sleepTimes.map(sleepTime => {
+      const milisecondsSlept = sleepTime.stop - sleepTime.start;
+      // TOTAL minutes slept (e.g 500)
+      const minutesSlept = Math.round(milisecondsSlept / 1000 / 60);
+      // ROUNDED hours slept
+      const hoursSlept = Math.round(minutesSlept / 60);
+      // REMAINING minutes (from hours round (e.g 20))
+      const remainderMinutes = minutesSlept - hoursSlept * 60;
+      return (
+        <li key={sleepTime.id}>
+          Hours: {hoursSlept}
+          <br />
+          Minutes: {remainderMinutes}
+        </li>
+      );
+    });
+    console.log(this.state.viewMode);
+    return (
+      <div className="sleep-chart-container">
+        <ButtonGroup className="date-span-group">
+          <Button
+            className="date-span-button"
+            onClick={this.setViewMode.bind(this, VIEW_MODES.DAY)}
+          >
+            D
+          </Button>
+
+          <Button
+            className="date-span-button"
+            onClick={this.setViewMode.bind(this, VIEW_MODES.WEEK)}
+          >
+            W
+          </Button>
+
+          <Button
+            className="date-span-button"
+            onClick={this.setViewMode.bind(this, VIEW_MODES.MONTH)}
+          >
+            M
+          </Button>
+        </ButtonGroup>
+
+        <div className="data-view">
+          {this.state.viewMode === VIEW_MODES.DAY ? (
+            <ul>{sleepMap}</ul>
+          ) : this.state.viewMode === VIEW_MODES.WEEK ? (
+            <h1>week mode</h1>
+          ) : (
+            <h1>month mode</h1>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+INITIAL_STATE = {
   sleepTimes: []
 };
 
@@ -71,10 +138,7 @@ class SleepChartPage extends React.Component {
       this.state.sleepTimes &&
       this.state.sleepTimes.length > 0 ? (
       <div className="horizontal-center fill">
-        <SleepChart
-          className="vertical-center"
-          sleepTimes={this.state.sleepTimes}
-        />
+        <SleepChart sleepTimes={this.state.sleepTimes} />
       </div>
     ) : (
       <LoadingPage />
