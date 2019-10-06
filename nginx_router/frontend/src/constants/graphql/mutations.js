@@ -1,11 +1,13 @@
 import { gql } from "apollo-boost";
 
-export const ADD_PROGRAMMER = gql`
-  mutation createProgrammer($programmer: ProgrammerInput!, $uidToken: String!) {
-    createProgrammer(input: $programmer, uidToken: $uidToken) {
+export const ADD_SLEEP_TIME = gql`
+  mutation createSleepTime($sleepTime: SleepTimeInput!, $uid: String!) {
+    createSleepTime(input: $programmer, uid: $uid) {
       ok
-      programmer {
-        username
+      sleepTime {
+        id
+        start
+        stop
       }
     }
   }
