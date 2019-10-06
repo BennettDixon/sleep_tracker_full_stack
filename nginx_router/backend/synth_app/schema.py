@@ -92,7 +92,7 @@ class Query(ObjectType):
         id = kwargs.get('uid')
 
         if id:
-            return SleepTime.objects.filter(owner__id=id)
+            return SleepTime.objects.filter(owner__id=id).all()
         return None
 
     def resolve_sleep_times(self, info, **kwargs):
