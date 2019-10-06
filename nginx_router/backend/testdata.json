@@ -5,5 +5,32 @@
     "fields": {
       "email": "testuser@testemail.com"
     }
+  },
+  {
+    "model": "synth_app.SleepTime",
+    "pk": 1,
+    "fields": {
+      "start": "2019-09-01T22:20:30Z",
+      "stop": "2019-09-02T06:20:30Z",
+      "owner": 1
+    }
+  },
+  {
+    "model": "synth_app.SleepTime",
+    "pk": 2,
+    "fields": {
+      "start": "2019-09-02T21:20:30Z",
+      "stop": "2019-09-03T06:40:30Z",
+      "owner": 1
+    }
+  },
+  {
+    "model": "synth_app.SleepTime",
+    "pk": 3,
+    "fields": {
+      "start": "2019-09-03T22:00:30Z",
+      "stop": "2019-09-04T07:20:30Z",
+      "owner": 1
+    }
   }
 ]
