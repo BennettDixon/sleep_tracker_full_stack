@@ -1,10 +1,11 @@
 .sleep-time {
     color: #007bff;
-    font-size: 25px;
+    font-size: 30px;
+    padding-bottom: 10px;
 }
 
 .sleep-time-time {
-    font-size: 40px;
+    font-size: 45px;
 }
 
 .sleep-time-time:not(:first-child) {
