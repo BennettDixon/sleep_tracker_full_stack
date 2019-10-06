@@ -16,6 +16,11 @@ class SleepTime {
     // REMAINING minutes (from hours round (e.g 20))
     this.minutesSlept = this.totalMinutesSlept - this.hoursSlept * 60;
   }
+
+  static getSmallTimeStr(dateTime) {
+    const strParse = dateTime.toTimeString().split(":");
+    return strParse[0] + ":" + strParse[1];
+  }
 }
 
 export default SleepTime;
