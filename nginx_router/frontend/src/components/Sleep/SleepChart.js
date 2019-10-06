@@ -9,12 +9,15 @@ import { sleep, getDateTime } from "../../constants/utils";
 
 import { compose } from "recompose";
 
+// Reuseable SleepChart component
 const SleepChart = ({ sleepTimes }) => {
   const sleepMap = sleepTimes.map(sleepTime => {
     const milisecondsSlept = sleepTime.stop - sleepTime.start;
-    // minutesSlept is currently miliseconds slept so convert
+    // TOTAL minutes slept
     const minutesSlept = Math.round(milisecondsSlept / 1000 / 60);
+    // ROUNDED hours slept
     const hoursSlept = Math.round(minutesSlept / 60);
+    // REMAINING minutes (from hours round)
     const remainderMinutes = minutesSlept - hoursSlept * 60;
     return (
       <li key={sleepTime.id}>
@@ -31,6 +34,10 @@ const INITIAL_STATE = {
   sleepTimes: []
 };
 
+/**
+ * SleepChartPage - Component that loads sleep times for users and passes to sleepchart
+ * used as a layer of abstraction from chart view itself
+ */
 class SleepChartPage extends React.Component {
   constructor(props) {
     super(props);
@@ -46,10 +53,10 @@ class SleepChartPage extends React.Component {
     while (!this.props.uid) {
       await sleep(100);
     }
-    // fetch sleep times & set state
+    // fetch sleep times, convert, & set state
     this.props.apollo.getUserSleepTimes(this.props.uid).then(resp => {
       const sleepTimes = resp.data.userSleepTimes;
-      const unixTimeZero = Date.parse("01 Jan 1970 00:00:00 GMT");
+      // convert the sleepTimes we fetched from json strings to Date objects
       sleepTimes.forEach(sleepTime => {
         sleepTime.start = getDateTime(sleepTime.start);
         sleepTime.stop = getDateTime(sleepTime.stop);
