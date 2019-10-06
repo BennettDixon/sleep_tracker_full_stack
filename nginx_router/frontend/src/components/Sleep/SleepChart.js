@@ -1,9 +1,13 @@
 import React from "react";
 
 import LoadingPage from "../LoadingPage";
+
 import { withApollo } from "../Apollo";
+import { withUid } from "../UidContext";
 
 import { sleep } from "../../constants/utils";
+
+import { compose } from "recompose";
 
 const SleepChart = ({ sleepTimes }) => {
   const sleepMap = sleepTimes.map(sleepTime => {
@@ -35,8 +39,10 @@ class SleepChartPage extends React.Component {
     while (!this.props.uid) {
       await sleep(100);
     }
+    // fetch sleep times & set state
     this.props.apollo.getUserSleepTimes(this.props.uid).then(resp => {
-      console.log(resp);
+      const sleepTimes = resp.data.userSleepTimes;
+      this.setState({ sleepTimes });
     });
   }
 
@@ -55,4 +61,7 @@ class SleepChartPage extends React.Component {
 }
 
 export { SleepChart };
-export default withApollo(SleepChartPage);
+export default compose(
+  withApollo,
+  withUid
+)(SleepChartPage);
