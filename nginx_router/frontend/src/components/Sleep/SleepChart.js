@@ -4,6 +4,9 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
 import LoadingPage from "../LoadingPage";
+import DayChart from "./DayChart";
+import WeekChart from "./WeekChart";
+import MonthChart from "./MonthChart";
 
 import { withApollo } from "../Apollo";
 import { withUid } from "../UidContext";
@@ -18,6 +21,33 @@ const VIEW_MODES = {
   DAY: 1,
   WEEK: 2,
   MONTH: 3
+};
+
+const DateSpanSelector = ({ setViewMode }) => {
+  return (
+    <ButtonGroup className="date-span-group">
+      <Button
+        className="date-span-button"
+        onClick={setViewMode.bind(this, VIEW_MODES.DAY)}
+      >
+        D
+      </Button>
+
+      <Button
+        className="date-span-button"
+        onClick={setViewMode.bind(this, VIEW_MODES.WEEK)}
+      >
+        W
+      </Button>
+
+      <Button
+        className="date-span-button"
+        onClick={setViewMode.bind(this, VIEW_MODES.MONTH)}
+      >
+        M
+      </Button>
+    </ButtonGroup>
+  );
 };
 
 var INITIAL_STATE = {
@@ -41,55 +71,18 @@ class SleepChart extends React.Component {
   };
 
   render() {
-    const sleepMap = this.state.sleepTimes.map(sleepTime => {
-      const milisecondsSlept = sleepTime.stop - sleepTime.start;
-      // TOTAL minutes slept (e.g 500)
-      const minutesSlept = Math.round(milisecondsSlept / 1000 / 60);
-      // ROUNDED hours slept
-      const hoursSlept = Math.round(minutesSlept / 60);
-      // REMAINING minutes (from hours round (e.g 20))
-      const remainderMinutes = minutesSlept - hoursSlept * 60;
-      return (
-        <li key={sleepTime.id}>
-          Hours: {hoursSlept}
-          <br />
-          Minutes: {remainderMinutes}
-        </li>
-      );
-    });
     console.log(this.state.viewMode);
     return (
       <div className="sleep-chart-container">
-        <ButtonGroup className="date-span-group">
-          <Button
-            className="date-span-button"
-            onClick={this.setViewMode.bind(this, VIEW_MODES.DAY)}
-          >
-            D
-          </Button>
-
-          <Button
-            className="date-span-button"
-            onClick={this.setViewMode.bind(this, VIEW_MODES.WEEK)}
-          >
-            W
-          </Button>
-
-          <Button
-            className="date-span-button"
-            onClick={this.setViewMode.bind(this, VIEW_MODES.MONTH)}
-          >
-            M
-          </Button>
-        </ButtonGroup>
+        <DateSpanSelector setViewMode={this.setViewMode} />
 
         <div className="data-view">
           {this.state.viewMode === VIEW_MODES.DAY ? (
-            <ul>{sleepMap}</ul>
+            <DayChart sleepTimes={this.state.sleepTimes} />
           ) : this.state.viewMode === VIEW_MODES.WEEK ? (
-            <h1>week mode</h1>
+            <WeekChart sleepTimes={this.state.sleepTimes} />
           ) : (
-            <h1>month mode</h1>
+            <MonthChart sleepTimes={this.state.sleepTimes} />
           )}
         </div>
       </div>
