@@ -1,4 +1,4 @@
-## welcome.
+## :running: welcome.
 
 Welcome to my demo for the take home challenge! It uses `docker` & `docker-compose` to make your life for setting it up extremely easy. These are the only dependencies you need for this project.
 
@@ -38,7 +38,7 @@ Execute the following, substituting your postgres container id. This will setup 
 docker exec -it <container-id/name> psql -U postgres -f /app/pgsetup.sql
 ```
 
-Once the role is created the backend will load the test data into postgres after performing the migrations. That's all you need to do!
+Once the role is created the backend will load the test data into postgres after performing the migrations; this is all you need to do!
 
 Visit the GraphQL endpoint `localhost:8800/graphql` and play with GraphQL Queries!
 
