@@ -27,47 +27,25 @@ class Apollo {
   //////////////////////////
   ////////* USERS *////////
   ////////////////////////
-  getProgrammers = event =>
+  // TODO in production uid should really be uidToken and authenticate with JRT tokens
+
+  getUserSleepTimes = uid =>
     this.client.query({
-      query: QUERIES.GET_PROGRAMMERS
+      query: QUERIES.GET_USER_SLEEP_TIMES,
+      variables: {
+        uid: uid
+      },
+      // network only for this because we need to grab latest info from server, disregarding cache
+      fetchPolicy: "network-only"
     });
 
-  createProgrammer = (authUser, username, uidToken) =>
+  createSleepTime = (uid, sleepTime) =>
     this.client.mutate({
-      mutation: MUTATIONS.ADD_PROGRAMMER,
+      mutation: MUTATIONS.ADD_SLEEP_TIME,
       variables: {
-        programmer: {
-          email: authUser.email,
-          username: username
-        },
-        uidToken: uidToken
+        uid: uid,
+        input: sleepTime
       }
-    });
-
-  getProgrammer = uidToken =>
-    this.client.query({
-      query: QUERIES.GET_PROGRAMMER,
-      variables: {
-        uidToken: uidToken
-      },
-      fetchPolicy: "network-only"
-    });
-
-  /////////////////////////
-  //////* PROBLEMS *//////
-  ///////////////////////
-  getProblems = () =>
-    this.client.query({
-      query: QUERIES.GET_PROBLEMS
-    });
-
-  getProblem = problemId =>
-    this.client.query({
-      query: QUERIES.GET_PROBLEM,
-      variables: {
-        id: problemId
-      },
-      fetchPolicy: "network-only"
     });
 }
 
