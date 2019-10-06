@@ -52,11 +52,11 @@ const DateSpanSelector = ({ setViewMode }) => {
   );
 };
 
+// BEGIN SleepChart class
 var INITIAL_STATE = {
   sleepTimes: [],
   viewMode: VIEW_MODES.DAY
 };
-
 // Reuseable SleepChart component
 class SleepChart extends React.Component {
   constructor(props) {
@@ -80,7 +80,7 @@ class SleepChart extends React.Component {
 
         <div className="data-view">
           {this.state.viewMode === VIEW_MODES.DAY ? (
-            <DayChart sleepTimes={this.state.sleepTimes} />
+            <DayChart sleepTime={this.state.sleepTimes[0]} />
           ) : this.state.viewMode === VIEW_MODES.WEEK ? (
             <WeekChart sleepTimes={this.state.sleepTimes} />
           ) : (
@@ -92,10 +92,10 @@ class SleepChart extends React.Component {
   }
 }
 
+// BEGIN SleepChartPage class
 INITIAL_STATE = {
   sleepTimes: []
 };
-
 /**
  * SleepChartPage - Component that loads sleep times for users and passes to sleepchart
  * used as a layer of abstraction from chart view itself
@@ -129,14 +129,16 @@ class SleepChartPage extends React.Component {
 
   render() {
     // if we have uid and have fetched sleep times render view, otherwise loading page
-    return this.props.uid &&
-      this.state.sleepTimes &&
-      this.state.sleepTimes.length > 0 ? (
+    return (
       <div className="horizontal-center fill">
-        <SleepChart sleepTimes={this.state.sleepTimes} />
+        {this.props.uid &&
+        this.state.sleepTimes &&
+        this.state.sleepTimes.length > 0 ? (
+          <SleepChart sleepTimes={this.state.sleepTimes} />
+        ) : (
+          <LoadingPage />
+        )}
       </div>
-    ) : (
-      <LoadingPage />
     );
   }
 }
