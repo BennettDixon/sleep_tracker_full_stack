@@ -21,7 +21,9 @@ If you assumed this project was setup using a bootstrapping tool you're correct,
 
 ## TODO
 
-Currently you can input any date, date verification is needed on input to make sure it is a span of less than 24 hours && not negative etc. Also UAM is not implemented to keep things simple. The user is hard coded to a uid of 1 via the UidContext component (provider in App component). This would be changed to a uidToken (JRT) in production likely, or coupled with a token.
+Currently you can input any date, date verification is needed on input to make sure it is a span of less than 24 hours && not negative etc.
+
+Also UAM is not implemented to keep things simple. The user is hard coded to a uid of 1 via the UidContext component (provider in App component). This would be changed to a uidToken (JRT) in production likely, or coupled with a token.
 
 ## :wrench: Setup
 
@@ -51,7 +53,7 @@ You can either use the name of the container or the id of the container to subst
 Execute the following, substituting your postgres container id or container name. This will setup a user and database in your postgres container. You only need to do this once unless you delete the docker-compose volume mount or the postgres data on your local machine.
 
 ```
-docker exec -it <container-id/name> psql -U postgres -f /app/pgsetup.sql
+docker exec <postgres-container-id/name> psql -U postgres -f /app/pgsetup.sql
 ```
 
 Once the role is created the backend will load the test data into postgres after performing the migrations; this is all you need to do!
@@ -61,6 +63,14 @@ The React view is located at `localhost:8800`
 Visit the GraphQL endpoint `localhost:8800/graphql/v1/` and play with GraphQL Queries if you wish!
 
 Feel free to add objects to the `/nginx_router/backend/testdata.json` file for further testing! They will be loaded in each time you boot the containers.
+
+You can also dynamically load data the same way you executed the postgres setup. Find the id or name of the `backend` container, likely something like `tellus_takehome_backend_1`.
+
+Then run the following:
+
+```
+docker exec <backend-container-id/name> python manage.py loaddata testdata.json
+```
 
 ### Shutting it down
 
