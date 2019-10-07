@@ -21,7 +21,7 @@ If you assumed this project was setup using a bootstrapping tool you're correct,
 
 ## TODO
 
-Currently you can input any date, date verification is needed on input to make sure it is a span of less than 24 hours && not negative etc.
+Currently you can input any date, date verification is needed on input to make sure it is a span of less than 24 hours && not negative etc. Also UAM is not implemented to keep things simple. The user is hard coded to a uid of 1 via the UidContext component (provider in App component). This would be changed to a uidToken (JRT) in production likely, or coupled with a token.
 
 ## :wrench: Setup
 
