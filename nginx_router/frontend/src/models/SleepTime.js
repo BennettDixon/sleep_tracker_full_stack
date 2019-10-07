@@ -43,10 +43,9 @@ class SleepTime {
   };
 
   static getSmallTimeStr(dateTime, militaryTime) {
-    const strParse = dateTime
-      .toISOString()
-      .split("T")[1]
-      .split(":");
+    const strParse = dateTime.toTimeString().split(":");
+
+    // convert to AM/PM or leave as military time
     var hours = parseInt(strParse[0]);
     var amPm = "";
     if (hours > 12 && !militaryTime) {
