@@ -7,7 +7,8 @@ import Button from "react-bootstrap/Button";
 const INITIAL_STATE = {
   startDate: new Date(),
   stopDate: new Date(),
-  error: null
+  error: null,
+  success: false
 };
 
 class SleepTimePicker extends React.Component {
@@ -25,9 +26,12 @@ class SleepTimePicker extends React.Component {
       );
       if (!resp) {
         // same day
-        this.setState({ error: "Already sleep entry for this day" });
+        this.setState({
+          error: "Already sleep entry for this day",
+          success: false
+        });
       } else {
-        this.setState({ error: null });
+        this.setState({ error: null, success: true });
       }
     }
   }
@@ -43,6 +47,7 @@ class SleepTimePicker extends React.Component {
   render() {
     return (
       <div className="fill">
+        {this.state.success ? <p>Added Sleep Time</p> : ""}
         {this.state.error ? (
           <p className="form-error">{this.state.error}</p>
         ) : (
@@ -62,7 +67,7 @@ class SleepTimePicker extends React.Component {
         />
         <br />
         <Button variant="primary" onClick={this.submitDate.bind(this)}>
-          Submit
+          Add
         </Button>
       </div>
     );
