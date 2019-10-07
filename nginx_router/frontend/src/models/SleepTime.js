@@ -42,12 +42,20 @@ class SleepTime {
     return 1;
   };
 
-  static getSmallTimeStr(dateTime) {
+  static getSmallTimeStr(dateTime, militaryTime) {
     const strParse = dateTime
       .toISOString()
       .split("T")[1]
       .split(":");
-    return strParse[0] + ":" + strParse[1];
+    var hours = parseInt(strParse[0]);
+    var amPm = "";
+    if (hours > 12 && !militaryTime) {
+      hours = hours - 12;
+      amPm = "PM";
+    } else if (!militaryTime) {
+      amPm = "AM";
+    }
+    return hours + ":" + strParse[1] + " " + amPm;
   }
 
   static getHoursSlept(totalMinutesSlept) {
