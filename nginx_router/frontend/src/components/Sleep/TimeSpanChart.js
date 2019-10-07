@@ -11,7 +11,7 @@ const TimeSpanChart = ({ sleepTimes, chartHeader }) => {
     return <LoadingPage />;
   } else if (sleepTimes.length <= 0) {
     // if length is 0 there is no data loaded, but it is defined
-    return <TimeLabel label={"no data loaded for this " + chartHeader} />;
+    return <TimeLabel label={"no data loaded for " + chartHeader} />;
   }
   sleepTimes.forEach(sleepTime => {
     totalMinutesSlept += sleepTime.totalMinutesSlept;
