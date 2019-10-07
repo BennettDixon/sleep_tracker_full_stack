@@ -1,9 +1,19 @@
 import React from "react";
 import "./TimeLabel.css";
 
-const TimeLabel = ({ label }) => {
+const TimeLabel = ({ label, fontSize }) => {
   label = label.toUpperCase();
-  return <span className="time-label">{label}</span>;
+  if (fontSize === undefined || fontSize === null) {
+    fontSize = 15;
+  }
+  const fontSizeStyle = {
+    fontSize: fontSize
+  };
+  return (
+    <span style={fontSizeStyle} className="time-label">
+      {label}
+    </span>
+  );
 };
 
 export default TimeLabel;
