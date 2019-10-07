@@ -63,26 +63,34 @@ class SleepChart extends React.Component {
   constructor(props) {
     super(props);
     // if passed via props
-    if (props.sleepTimes !== undefined) {
-      INITIAL_STATE.sleepTimes = this.props.sleepTimes;
-    }
     this.state = INITIAL_STATE;
   }
 
   componentDidMount() {
-    // set the weekSleepTimes to default of today being end of week
     var utcNow = new Date();
+
+    const sortedTimes = this.props.sleepTimes.sort(SleepTime.sortByTime);
+
+    // grab last ele of sorted array
+    const latestSleep = sortedTimes[sortedTimes.length - 1];
+    // debug
+    console.log("fetched latest sleep:");
+    console.log(latestSleep);
+    console.log("");
+
+    // update state with new sorted times and latest sleep => needed in next steps of didMount
+    this.setState({ sleepTimes: sortedTimes, latestSleep: latestSleep });
 
     var weekSleepTimes = this.getWeekTimes(utcNow);
     weekSleepTimes = weekSleepTimes.sort(SleepTime.sortByTime);
 
     var monthSleepTimes = this.getMonthTimes(utcNow);
     monthSleepTimes = monthSleepTimes.sort(SleepTime.sortByTime);
+
     this.setState({
       weekSleepTimes,
       monthSleepTimes
     });
-    console.log(this.state);
   }
 
   /**
@@ -97,7 +105,6 @@ class SleepChart extends React.Component {
       weekEndDate.getMonth(),
       weekEndDate.getDate() - 7
     );
-    console.log("week start date: " + weekStartDate);
 
     this.props.sleepTimes.forEach(sleepTime => {
       if (sleepTime.start > weekStartDate) {
@@ -131,7 +138,7 @@ class SleepChart extends React.Component {
 
         <div className="data-view">
           {this.state.viewMode === VIEW_MODES.DAY ? (
-            <DayChart sleepTime={this.state.sleepTimes[0]} />
+            <DayChart sleepTime={this.state.latestSleep} />
           ) : this.state.viewMode === VIEW_MODES.WEEK ? (
             <TimeSpanChart
               sleepTimes={this.state.weekSleepTimes}
