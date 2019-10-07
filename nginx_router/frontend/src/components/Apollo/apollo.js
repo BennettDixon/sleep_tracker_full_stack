@@ -47,6 +47,15 @@ class Apollo {
         sleepTime: sleepTime
       }
     });
+
+  deleteSleepTime = (uid, id) =>
+    this.client.mutate({
+      mutation: MUTATIONS.DEL_SLEEP_TIME,
+      variables: {
+        uid: uid,
+        id: id
+      }
+    });
 }
 
 export default Apollo;

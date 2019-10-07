@@ -12,3 +12,11 @@ export const ADD_SLEEP_TIME = gql`
     }
   }
 `;
+
+export const DEL_SLEEP_TIME = gql`
+  mutation deleteSleepTime($uid: Int!, $id: Int!) {
+    deleteSleepTime(uid: $uid, id: $id) {
+      ok
+    }
+  }
+`;
