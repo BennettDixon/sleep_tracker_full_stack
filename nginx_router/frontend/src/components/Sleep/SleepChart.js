@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import LoadingPage from "../LoadingPage";
 import DayChart from "./DayChart";
 import TimeSpanChart from "./TimeSpanChart";
-import MonthChart from "./MonthChart";
 
 import { withApollo } from "../Apollo";
 import { withUid } from "../UidContext";
