@@ -81,25 +81,30 @@ class SleepChart extends React.Component {
   getWeekTimes(weekEndDate) {
     var weekSleepTimes = [];
     var weekEndUTC = weekEndDate.getUTCDate();
+
     this.props.sleepTimes.forEach(sleepTime => {
       if (sleepTime.start.getMonth() === weekEndUTC) {
         weekSleepTimes.push(sleepTime);
       }
     });
+
     return weekSleepTimes;
   }
 
   getMonthTimes(monthEndDate) {
     var monthSleepTimes = [];
+
     this.props.sleepTimes.forEach(sleepTime => {
-      if (
-        sleepTime.start.getMonth() === monthEndDate.getMonth() &&
-        sleepTime.start.getFullYear() === monthEndDate.getFullYear
-      ) {
-        console.log("is day");
+      var endMonth = monthEndDate.getMonth();
+      var instanceMonth = sleepTime.start.getMonth();
+      var endYear = monthEndDate.getFullYear();
+      var instanceYear = sleepTime.start.getFullYear();
+
+      if (instanceMonth === endMonth && instanceYear === endYear) {
         monthSleepTimes.push(sleepTime);
       }
     });
+
     return monthSleepTimes;
   }
 
