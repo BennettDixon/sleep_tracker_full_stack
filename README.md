@@ -25,7 +25,7 @@ cd tellus-takehome;
 Run the container network, this will build them the first time so be patient while images are downloaded and containers are built
 
 ```
-docker-compose up -d
+docker-compose up
 ```
 
 This will spin containers up, but you will see an error printed to the screen telling you `ROLE postgres_user DOES NOT EXIST`. Do not fret, follow these steps, this is intended. We need to setup the table and database for the backend to populate with testdata.
