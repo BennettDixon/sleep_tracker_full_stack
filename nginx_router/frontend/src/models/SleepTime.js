@@ -20,6 +20,18 @@ class SleepTime {
     );
   }
 
+  static sortByTime = (a, b) => {
+    if (a.start === b.start) {
+      return 0;
+    } else if (a.start < b.start) {
+      // if date a is before date b it should come first
+      console.log("a comes first");
+      return -1;
+    }
+    // a > b
+    return 1;
+  };
+
   static getSmallTimeStr(dateTime) {
     const strParse = dateTime.toTimeString().split(":");
     return strParse[0] + ":" + strParse[1];
