@@ -19,8 +19,8 @@
     "model": "synth_app.SleepTime",
     "pk": 2,
     "fields": {
-      "start": "2019-09-02T21:20:30Z",
-      "stop": "2019-09-03T06:40:30Z",
+      "start": "2019-09-29T21:20:30Z",
+      "stop": "2019-09-30T07:40:30Z",
       "owner": 1
     }
   },
