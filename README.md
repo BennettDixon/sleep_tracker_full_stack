@@ -19,6 +19,10 @@ If you assumed this project was setup using a bootstrapping tool you're correct,
 
 - [Synth](https://github.com/bennettdixon/synth) was made for creating containerized web apps quickly with modular components.
 
+## TODO
+
+Currently you can input any date, date verification is needed on input to make sure it is a span of less than 24 hours && not negative etc.
+
 ## :wrench: Setup
 
 Clone the project
