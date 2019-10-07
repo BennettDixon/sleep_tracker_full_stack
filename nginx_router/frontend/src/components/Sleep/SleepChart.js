@@ -203,10 +203,8 @@ class SleepChart extends React.Component {
     this.setState({ sleepTimes: sortedTimes, latestSleep: latestSleep });
 
     var weekSleepTimes = this.getWeekTimes(now);
-    weekSleepTimes = weekSleepTimes.sort(SleepTime.sortByTime);
 
     var monthSleepTimes = this.getMonthTimes(now);
-    monthSleepTimes = monthSleepTimes.sort(SleepTime.sortByTime);
 
     this.setState({
       weekSleepTimes,
@@ -227,14 +225,18 @@ class SleepChart extends React.Component {
       weekEndDate.getMonth(),
       weekEndDate.getDate() - 7
     );
+    // use props on first load if state not set yet
+    const sleepTimes =
+      this.state.sleepTimes.length > 0
+        ? this.state.sleepTimes
+        : this.props.sleepTimes;
 
-    this.props.sleepTimes.forEach(sleepTime => {
+    sleepTimes.forEach(sleepTime => {
       if (sleepTime.start > weekStartDate) {
         weekSleepTimes.push(sleepTime);
       }
     });
-
-    return weekSleepTimes;
+    return weekSleepTimes.sort(SleepTime.sortByTime);
   }
 
   /**
@@ -245,14 +247,18 @@ class SleepChart extends React.Component {
    */
   getMonthTimes(monthEndDate) {
     var monthSleepTimes = [];
+    const sleepTimes =
+      this.state.sleepTimes.length > 0
+        ? this.state.sleepTimes
+        : this.props.sleepTimes;
 
-    this.props.sleepTimes.forEach(sleepTime => {
+    sleepTimes.forEach(sleepTime => {
       if (SleepTime.verifyMonthAndYear(sleepTime.start, monthEndDate)) {
         monthSleepTimes.push(sleepTime);
       }
     });
 
-    return monthSleepTimes;
+    return monthSleepTimes.sort(SleepTime.sortByTime);
   }
 
   /**
@@ -275,26 +281,29 @@ class SleepChart extends React.Component {
       console.log("same day");
       return false;
     }
-    await this.props.apollo
+    var resp = await this.props.apollo
       .createSleepTime(this.props.uid, {
         start: startDate.toISOString(),
         stop: stopDate.toISOString()
-      })
-      .then(resp => {
-        console.log(resp);
-        var sleepTime = resp.data.createSleepTime.sleepTime;
-        console.log(sleepTime);
-        sleepTime = new SleepTime(
-          sleepTime.id,
-          sleepTime.start,
-          sleepTime.stop
-        );
-        this.setState({ latestSleep: sleepTime });
       })
       .catch(error => {
         console.log(error.message);
         return false;
       });
+
+    if (resp) {
+      console.log(resp);
+      var sleepTime = resp.data.createSleepTime.sleepTime;
+      console.log(sleepTime);
+      sleepTime = new SleepTime(sleepTime.id, sleepTime.start, sleepTime.stop);
+      this.state.sleepTimes.push(sleepTime);
+      this.state.sleepTimes.sort(SleepTime.sortByTime);
+      this.setState({
+        latestSleep: sleepTime,
+        weekSleepTimes: this.getWeekTimes(new Date()),
+        monthSleepTimes: this.getMonthTimes(new Date())
+      });
+    }
 
     return true;
   }
