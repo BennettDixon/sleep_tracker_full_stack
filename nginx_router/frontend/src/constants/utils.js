@@ -3,6 +3,9 @@ export function sleep(ms) {
 }
 
 export function getDateTime(string) {
-  var converted = Date.parse(string);
-  return new Date(converted);
+  var dateTimeZone = string.split("+");
+  var dateTime = dateTimeZone[0];
+  var timeZone = dateTimeZone[1];
+  const newDate = new Date(dateTime);
+  return newDate;
 }
