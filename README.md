@@ -9,6 +9,8 @@ Depending on your OS you may have to install compose seperately, if that's the c
 
 ## :sparkler: Cool Features
 
+Postgres, Django, GraphQL, Apollo, & React make for an efficient development environment and scalable production environment.
+
 Volume mounts are setup in the development environment by docker-compose to provide auto-refresh on save in React & Django.
 
 Also routing is done in the NGINX router to accomplish the websocket connection for React.
