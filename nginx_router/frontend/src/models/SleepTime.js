@@ -3,6 +3,7 @@ import { getDateTime } from "../constants/utils";
 class SleepTime {
   constructor(startStr, stopStr) {
     this.start = getDateTime(startStr);
+    console.log(startStr, this.start.toISOString());
     this.stop = getDateTime(stopStr);
     this.getMoreData();
   }
@@ -42,7 +43,10 @@ class SleepTime {
   };
 
   static getSmallTimeStr(dateTime) {
-    const strParse = dateTime.toTimeString().split(":");
+    const strParse = dateTime
+      .toISOString()
+      .split("T")[1]
+      .split(":");
     return strParse[0] + ":" + strParse[1];
   }
 
