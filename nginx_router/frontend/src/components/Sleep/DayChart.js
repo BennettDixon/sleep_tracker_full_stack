@@ -7,6 +7,12 @@ import {
   DateRange
 } from "../TimeText";
 
+/**
+ * DayChart component presenting a singular day
+ *
+ * @param {*} sleepTime prop, singular SleepTime instance
+ * @param {*} militaryTime prop, boolean, true/false whether to render militaryTime
+ */
 const DayChart = ({ sleepTime, militaryTime }) => {
   console.log(sleepTime);
   return (

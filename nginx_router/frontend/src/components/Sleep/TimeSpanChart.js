@@ -5,6 +5,12 @@ import LoadingPage from "../LoadingPage";
 
 import SleepTime from "../../models/SleepTime";
 
+/**
+ *
+ * @param {*} props (required props) sleepTimes, chartHeader
+ * @param {*} sleepTimes (^) array of SleepTimes
+ * @param {*} chartHeader (^) string for chart header
+ */
 const TimeSpanChart = ({ sleepTimes, chartHeader }) => {
   var totalMinutesSlept = 0;
   if (sleepTimes === undefined) {

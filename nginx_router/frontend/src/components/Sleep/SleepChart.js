@@ -24,6 +24,11 @@ const VIEW_MODES = {
   MONTH: 3
 };
 
+/**
+ * Header for selecting day // week // month
+ *
+ * @param {*} prop setViewMode (required prop) function to set the view mode
+ */
 const DateSpanSelector = ({ setViewMode }) => {
   return (
     <ButtonGroup className="date-span-group">
@@ -58,7 +63,14 @@ var INITIAL_STATE = {
   monthSleepTimes: [],
   viewMode: VIEW_MODES.DAY
 };
-// Reuseable SleepChart component
+
+/**
+ * SleepChart renders together all components needed to display user sleep information
+ *
+ * it DOES NOT load data in for sleepTimes. It MUST be pased in via props
+ *
+ * @param {*} props required props: sortedTimes
+ */
 class SleepChart extends React.Component {
   constructor(props) {
     super(props);
@@ -95,6 +107,7 @@ class SleepChart extends React.Component {
 
   /**
    * sets state for week times from weekEndDate - 7
+   * fetches from props
    *
    * @param {*} weekEndDate the end of the week, fetches 7 days back
    */
@@ -115,6 +128,12 @@ class SleepChart extends React.Component {
     return weekSleepTimes;
   }
 
+  /**
+   * fetches month times and set states accordingly
+   *
+   * @param {*} monthEndDate month beginning is calculated off of this, usually should be now
+   *
+   */
   getMonthTimes(monthEndDate) {
     var monthSleepTimes = [];
 
@@ -127,6 +146,9 @@ class SleepChart extends React.Component {
     return monthSleepTimes;
   }
 
+  /**
+   * sets the view mode to a given mode
+   */
   setViewMode = (mode, event) => {
     this.setState({ viewMode: mode });
   };
