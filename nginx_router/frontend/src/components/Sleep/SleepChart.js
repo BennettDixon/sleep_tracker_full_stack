@@ -232,7 +232,7 @@ class SleepChart extends React.Component {
         : this.props.sleepTimes;
 
     sleepTimes.forEach(sleepTime => {
-      if (sleepTime.start > weekStartDate) {
+      if (sleepTime.start > weekStartDate && sleepTime.start < weekEndDate) {
         weekSleepTimes.push(sleepTime);
       }
     });
