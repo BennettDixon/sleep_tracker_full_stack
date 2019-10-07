@@ -283,7 +283,42 @@ class SleepChart extends React.Component {
   async replaceSleepTime(startTime, stopTime) {
     console.log("replacing sleep time");
     console.log(startTime, stopTime);
-    console.log();
+    // TODO delete with apollo and create new one
+    console.log(this.state.latestSleep);
+
+    // update the hours and minutes from the time picked
+    const [stopHours, stopMinutes] = stopTime.split(":");
+    const [startHours, startMinutes] = startTime.split(":");
+
+    this.state.latestSleep.stop.setHours(stopHours);
+    this.state.latestSleep.stop.setMinutes(stopMinutes);
+
+    this.state.latestSleep.start.setHours(startHours);
+    this.state.latestSleep.start.setMinutes(startMinutes);
+
+    this.state.latestSleep.getMoreData();
+
+    const prevLatest = this.state.latestSleep;
+    console.log(prevLatest);
+
+    var resp = await this.props.apollo
+      .deleteSleepTime(this.props.uid, this.state.latestSleep.id)
+      .catch(error => {
+        console.log(error);
+        return false;
+      });
+    console.log(resp);
+    // proceed with new creation, delete succeeded
+    resp = await this.props.apollo
+      .createSleepTime(this.props.uid, {
+        start: prevLatest.start.toISOString(),
+        stop: prevLatest.stop.toISOString()
+      })
+      .catch(error => {
+        console.log("failed to replace sleepTime: ");
+        console.log(error);
+      });
+    console.log(resp);
     return true;
   }
 
@@ -293,7 +328,7 @@ class SleepChart extends React.Component {
         <DateSpanSelector
           setViewMode={this.setViewMode}
           create={this.createSleepTime.bind(this)}
-          replaceTime={this.replaceSleepTime}
+          replaceTime={this.replaceSleepTime.bind(this)}
         />
 
         <div className="data-view">
@@ -345,7 +380,9 @@ class SleepChartPage extends React.Component {
       // convert the sleepTimes we fetched from json strings to Date objects
       var convertedTimes = [];
       sleepTimes.forEach(sleepTime => {
-        convertedTimes.push(new SleepTime(sleepTime.start, sleepTime.stop));
+        convertedTimes.push(
+          new SleepTime(sleepTime.id, sleepTime.start, sleepTime.stop)
+        );
       });
       this.setState({ sleepTimes: convertedTimes });
     });
