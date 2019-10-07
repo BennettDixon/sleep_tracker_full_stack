@@ -15,7 +15,9 @@ Volume mounts are setup in the development environment by docker-compose to prov
 
 Also routing is done in the NGINX router to accomplish the websocket connection for React.
 
-You're correct in assuming it was setup using a bootstrapping tool. I just so happened to build the tool! It's called [Synth](https://github.com/bennettdixon/synth) and is made for creating containerized web apps quickly with modular components.
+You're correct in assuming this project was setup using a bootstrapping tool. I built the tool!
+
+The tool is called [Synth](https://github.com/bennettdixon/synth) and was made for creating containerized web apps quickly with modular components.
 
 ## :wrench: Setup
 
