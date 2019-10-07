@@ -7,7 +7,7 @@ import {
   DateRange
 } from "../TimeText";
 
-const DayChart = ({ sleepTime }) => {
+const DayChart = ({ sleepTime, militaryTime }) => {
   console.log(sleepTime);
   return (
     <div>
@@ -21,10 +21,10 @@ const DayChart = ({ sleepTime }) => {
         />
 
         <TimeLabel label="In bed at" />
-        <SmallTimeText date={sleepTime.start} />
+        <SmallTimeText date={sleepTime.start} militaryTime={militaryTime} />
 
         <TimeLabel label="In bed until" />
-        <SmallTimeText date={sleepTime.stop} />
+        <SmallTimeText date={sleepTime.stop} militaryTime={militaryTime} />
       </div>
     </div>
   );
