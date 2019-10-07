@@ -4,7 +4,6 @@ class SleepTime {
   constructor(id, startStr, stopStr) {
     this.id = id;
     this.start = getDateTime(startStr);
-    console.log(startStr, this.start.toISOString());
     this.stop = getDateTime(stopStr);
     this.getMoreData();
   }
@@ -23,12 +22,35 @@ class SleepTime {
   }
 
   /**
+   * gets a short date string for display
+   * @param {*} date date to get short date from
+   */
+  static getShortDate(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    return month + "-" + day;
+  }
+
+  /**
    * Gets date range text for display from array, or just singular
    *
    * @param {*} sleepTimes SleepTime array to get range from, or singular sleep time
    */
   static getDateRangeText(sleepTimes) {
-    return "daterange text";
+    if (sleepTimes.length === undefined) {
+      // not an array, render singular object
+      return "(" + SleepTime.getShortDate(sleepTimes.start) + ")";
+    } else {
+      console.log(sleepTimes);
+      const genStr =
+        "(" +
+        SleepTime.getShortDate(sleepTimes[0].start) +
+        "..." +
+        SleepTime.getShortDate(sleepTimes[sleepTimes.length - 1].start) +
+        ")";
+      console.log(genStr);
+      return genStr;
+    }
   }
 
   static sortByTime = (a, b) => {

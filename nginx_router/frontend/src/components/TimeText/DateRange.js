@@ -7,11 +7,8 @@ import SleepTime from "../../models/SleepTime";
 import "./DateRange.css";
 
 const DateRange = ({ sleepTimes }) => {
-  if (sleepTimes.length === undefined) {
-    // not an array, render singular object
-    console.log("date range not array");
-  }
   const dateRange = SleepTime.getDateRangeText(sleepTimes);
+  console.log(dateRange);
   return (
     <div className="date-range">
       <TimeLabel label={dateRange} fontSize={20} />
