@@ -32,6 +32,7 @@ const VIEW_MODES = {
 var INITIAL_STATE = {
   datePicked: new Date(),
   showModal: false,
+  propOverride: true,
   modalError: null
 };
 
@@ -48,6 +49,7 @@ class DateSpanSelector extends React.Component {
 
   closeModal = event => {
     this.setState({ showModal: false });
+    this.setState({ propOverride: false });
   };
 
   onStartTimeChange = time => {
@@ -88,6 +90,7 @@ class DateSpanSelector extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <ButtonGroup className="date-span-group">
