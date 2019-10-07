@@ -1,9 +1,9 @@
 import React from "react";
 
-import { SleepTimeText, TimeLabel } from "../TimeText";
+import { SleepTimeText, TimeLabel, DateRange } from "../TimeText";
+import LoadingPage from "../LoadingPage";
 
 import SleepTime from "../../models/SleepTime";
-import LoadingPage from "../LoadingPage";
 
 const TimeSpanChart = ({ sleepTimes, chartHeader }) => {
   var totalMinutesSlept = 0;
@@ -23,6 +23,7 @@ const TimeSpanChart = ({ sleepTimes, chartHeader }) => {
   return (
     <div>
       <h1>{chartHeader}</h1>
+      <DateRange sleepTimes={sleepTimes} />
       <TimeLabel label="Average Time Slept" />
       <SleepTimeText hours={avgHours} minutes={avgMinutes} />
     </div>
