@@ -32,6 +32,31 @@ class SleepTime {
   static getMinutesSlept(totalMinutes, roundedHours) {
     return Math.round(totalMinutes - roundedHours * 60);
   }
+
+  static verifyYear(date, validationDate) {
+    var endYear = validationDate.getFullYear();
+    var instanceYear = date.getFullYear();
+    if (instanceYear === endYear) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * verifies date and endDate have the same month and year
+   *
+   * @param {*} date Date to verify
+   * @param {*} endDate Date to check date against
+   */
+  static verifyMonthAndYear(date, endDate) {
+    var endMonth = endDate.getMonth();
+    var instanceMonth = date.getMonth();
+
+    if (instanceMonth === endMonth && SleepTime.verifyYear(date, endDate)) {
+      return true;
+    }
+    return false;
+  }
 }
 
 export default SleepTime;
