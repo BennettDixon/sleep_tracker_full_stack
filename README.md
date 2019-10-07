@@ -64,7 +64,7 @@ Visit the GraphQL endpoint `localhost:8800/graphql/v1/` and play with GraphQL Qu
 
 Feel free to add objects to the `/nginx_router/backend/testdata.json` file for further testing! They will be loaded in each time you boot the containers.
 
-You can also dynamically load data the same way you executed the postgres setup. Find the id or name of the `backend` container, likely something like `tellus_takehome_backend_1`.
+You can also dynamically load data the same way you executed the postgres setup due to volume mounting. Find the id or name of the `backend` container, likely something like `tellus_takehome_backend_1`.
 
 Then run the following:
 
