@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+
+import TimePicker from "react-time-picker";
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
@@ -24,41 +27,140 @@ const VIEW_MODES = {
   MONTH: 3
 };
 
+var INITIAL_STATE = {
+  datePicked: new Date(),
+  showModal: false,
+  modalError: null
+};
+
 /**
  * Header for selecting day // week // month
  *
  * @param {*} prop setViewMode (required prop) function to set the view mode
  */
-const DateSpanSelector = ({ setViewMode, create }) => {
-  return (
-    <ButtonGroup className="date-span-group">
-      <Button
-        className="date-span-button"
-        onClick={setViewMode.bind(this, VIEW_MODES.DAY)}
-      >
-        D
-      </Button>
+class DateSpanSelector extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = INITIAL_STATE;
+  }
 
-      <Button
-        className="date-span-button"
-        onClick={setViewMode.bind(this, VIEW_MODES.WEEK)}
-      >
-        W
-      </Button>
+  closeModal = event => {
+    this.setState({ showModal: false });
+  };
 
-      <Button
-        className="date-span-button"
-        onClick={setViewMode.bind(this, VIEW_MODES.MONTH)}
-      >
-        M
-      </Button>
-      <Button onClick={create}>+</Button>
-    </ButtonGroup>
-  );
-};
+  onStartTimeChange = time => {
+    this.setState({ startTime: time });
+  };
+
+  onStopTimeChange = time => {
+    this.setState({ stopTime: time });
+  };
+
+  async createCompiled() {
+    var resp = await this.props.create();
+    if (resp) {
+      console.log("succeeded in date creation");
+    } else {
+      // already date present for today
+      this.setState({ showModal: true });
+    }
+  }
+
+  async replaceTime() {
+    if (!this.state.stopTime || !this.state.startTime) {
+      this.setState({
+        modalError: "Please select both times before replacing"
+      });
+      return;
+    } else {
+      this.setState({
+        modalError: null
+      });
+    }
+    var resp = await this.props.replaceTime(
+      this.state.startTime,
+      this.state.stopTime
+    );
+    console.log(resp);
+  }
+
+  render() {
+    return (
+      <div>
+        <ButtonGroup className="date-span-group">
+          <Button
+            className="date-span-button"
+            onClick={this.props.setViewMode.bind(this, VIEW_MODES.DAY)}
+          >
+            D
+          </Button>
+
+          <Button
+            className="date-span-button"
+            onClick={this.props.setViewMode.bind(this, VIEW_MODES.WEEK)}
+          >
+            W
+          </Button>
+
+          <Button
+            className="date-span-button"
+            onClick={this.props.setViewMode.bind(this, VIEW_MODES.MONTH)}
+          >
+            M
+          </Button>
+          <Button onClick={this.createCompiled.bind(this)}>+</Button>
+        </ButtonGroup>
+
+        <Modal show={this.state.showModal} onHide={this.closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Entry Already Present</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="horizontal-center">
+              {this.state.modalError ? (
+                <p className="form-error">{this.state.modalError}</p>
+              ) : (
+                ""
+              )}
+              There is already a date entered for today's date. If you would
+              like to replace the current entry for today, enter the new start &
+              stop times, then press replace.
+              <br />
+              <br />
+              <h5>Start Time</h5>
+              <TimePicker
+                name="startTime"
+                onChange={this.onStartTimeChange}
+                value={this.state.startTime}
+                className="time-picker"
+              />
+              <br />
+              <h5>Stop Time</h5>
+              <TimePicker
+                name="stopTime"
+                onChange={this.onStopTimeChange}
+                value={this.state.stopTime}
+                className="time-picker"
+              />
+              <br />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.closeModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={this.replaceTime.bind(this)}>
+              Replace
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+}
 
 // BEGIN SleepChart class
-var INITIAL_STATE = {
+INITIAL_STATE = {
   sleepTimes: [],
   weekSleepTimes: [],
   monthSleepTimes: [],
@@ -154,29 +256,44 @@ class SleepChart extends React.Component {
     this.setState({ viewMode: mode });
   };
 
-  createSleepTime = event => {
+  async createSleepTime(event) {
     // TODO replace with modal prompting for time
-    const start = new Date().toISOString();
-    const stop = new Date().toISOString();
-    this.props.apollo
+    const start = new Date();
+    const stop = new Date();
+    // make sure not the same day
+    if (SleepTime.verifyDay(start, this.state.latestSleep.start)) {
+      return false;
+    }
+    await this.props.apollo
       .createSleepTime(this.props.uid, {
-        start: start,
-        stop: stop
+        start: start.toISOString(),
+        stop: stop.toISOString()
       })
       .then(resp => {
         console.log(resp);
       })
       .catch(error => {
         console.log(error.message);
+        return false;
       });
-  };
+
+    return true;
+  }
+
+  async replaceSleepTime(startTime, stopTime) {
+    console.log("replacing sleep time");
+    console.log(startTime, stopTime);
+    console.log();
+    return true;
+  }
 
   render() {
     return (
       <div className="sleep-chart-container">
         <DateSpanSelector
           setViewMode={this.setViewMode}
-          create={this.createSleepTime}
+          create={this.createSleepTime.bind(this)}
+          replaceTime={this.replaceSleepTime}
         />
 
         <div className="data-view">
