@@ -20,6 +20,15 @@ class SleepTime {
     );
   }
 
+  /**
+   * Gets date range text for display from array, or just singular
+   *
+   * @param {*} sleepTimes SleepTime array to get range from, or singular sleep time
+   */
+  static getDateRangeText(sleepTimes) {
+    return "daterange text";
+  }
+
   static sortByTime = (a, b) => {
     if (a.start === b.start) {
       return 0;
