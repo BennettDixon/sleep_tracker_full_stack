@@ -43,3 +43,8 @@
 .time-picker {
     height: 5%;
 }
+
+.date-picker {
+    margin: 10px;
+    height: 15%;
+}

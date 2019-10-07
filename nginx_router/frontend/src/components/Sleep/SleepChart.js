@@ -20,11 +20,13 @@ import SleepTime from "../../models/SleepTime";
 import { compose } from "recompose";
 
 import "./SleepChart.css";
+import SleepTimePicker from "./SleepTimePicker";
 
 const VIEW_MODES = {
   DAY: 1,
   WEEK: 2,
-  MONTH: 3
+  MONTH: 3,
+  PICKER: 4
 };
 
 var INITIAL_STATE = {
@@ -59,7 +61,7 @@ class DateSpanSelector extends React.Component {
   async createCompiled() {
     var resp = await this.props.create();
     if (resp) {
-      console.log("succeeded in date creation");
+      console.log("got OK resp from creation, could just be presenting view");
     } else {
       // already date present for today
       this.setState({ showModal: true });
@@ -81,6 +83,7 @@ class DateSpanSelector extends React.Component {
       this.state.startTime,
       this.state.stopTime
     );
+    this.closeModal();
     console.log(resp);
   }
 
@@ -164,7 +167,7 @@ INITIAL_STATE = {
   sleepTimes: [],
   weekSleepTimes: [],
   monthSleepTimes: [],
-  viewMode: VIEW_MODES.DAY
+  viewMode: 1
 };
 
 /**
@@ -177,11 +180,14 @@ INITIAL_STATE = {
 class SleepChart extends React.Component {
   constructor(props) {
     super(props);
-    // if passed via props
     this.state = INITIAL_STATE;
   }
 
   componentDidMount() {
+    // set default view mode
+    if (this.state.viewMode === undefined) {
+      this.setState({ viewMode: VIEW_MODES.DAY });
+    }
     var now = new Date();
     console.log(now.toISOString());
     const sortedTimes = this.props.sleepTimes.sort(SleepTime.sortByTime);
@@ -256,21 +262,34 @@ class SleepChart extends React.Component {
     this.setState({ viewMode: mode });
   };
 
-  async createSleepTime(event) {
-    // TODO replace with modal prompting for time
-    const start = new Date();
-    const stop = new Date();
-    // make sure not the same day
-    if (SleepTime.verifyDay(start, this.state.latestSleep.start)) {
+  async createSleepTime(startDate, stopDate) {
+    console.log(startDate, stopDate);
+
+    if (startDate === undefined || stopDate === undefined) {
+      // if undefined set view mode to picker (request didnt originate from picker)
+      this.setViewMode(VIEW_MODES.PICKER);
+      return true;
+    }
+    if (SleepTime.verifyDay(startDate, this.state.latestSleep.start)) {
+      // make sure not the same day
+      console.log("same day");
       return false;
     }
     await this.props.apollo
       .createSleepTime(this.props.uid, {
-        start: start.toISOString(),
-        stop: stop.toISOString()
+        start: startDate.toISOString(),
+        stop: stopDate.toISOString()
       })
       .then(resp => {
         console.log(resp);
+        var sleepTime = resp.data.createSleepTime.sleepTime;
+        console.log(sleepTime);
+        sleepTime = new SleepTime(
+          sleepTime.id,
+          sleepTime.start,
+          sleepTime.stop
+        );
+        this.setState({ latestSleep: sleepTime });
       })
       .catch(error => {
         console.log(error.message);
@@ -323,6 +342,7 @@ class SleepChart extends React.Component {
   }
 
   render() {
+    console.log("cur view mode: " + this.state.viewMode);
     return (
       <div className="sleep-chart-container">
         <DateSpanSelector
@@ -339,11 +359,13 @@ class SleepChart extends React.Component {
               sleepTimes={this.state.weekSleepTimes}
               chartHeader="This Week"
             />
-          ) : (
+          ) : this.state.viewMode === VIEW_MODES.MONTH ? (
             <TimeSpanChart
               sleepTimes={this.state.monthSleepTimes}
               chartHeader="This Month"
             />
+          ) : (
+            <SleepTimePicker submitDate={this.createSleepTime.bind(this)} />
           )}
         </div>
       </div>
