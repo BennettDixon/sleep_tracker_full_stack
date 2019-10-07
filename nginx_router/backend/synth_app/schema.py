@@ -177,12 +177,45 @@ class CreateSleepTime(graphene.Mutation):
         return CreateSleepTime(ok=ok, sleep_time=new_sleep)
 
 
+class DeleteSleepTime(graphene.Mutation):
+    """
+        deletes a sleep time instance for a user
+
+        uid: id of user to create sleep time for
+        id: id of sleep time to delete
+    """
+    class Arguments:
+        # define the input arguments for our static mutate method
+        uid = graphene.Int(required=True)
+        id = graphene.Int(required=True)
+
+    ok = graphene.Boolean()
+
+    @staticmethod
+    def mutate(root, info, uid=None, id=None):
+        ok = False
+
+        if uid and id:
+            # grab the user from db
+            user_instance = User.objects.get(pk=uid)
+            if user_instance:
+                sleep_instance = SleepTime.objects.get(pk=id)
+                if sleep_instance:
+                    ok = True
+                    # create the sleeptime
+                    sleep_instance.delete()
+
+        # return with status and updated instance (False/None if failed)
+        return DeleteSleepTime(ok=ok)
+
+
 class Mutation(graphene.ObjectType):
     """
         Our set of mutations allowed
     """
     create_user = CreateUser.Field()
     create_sleep_time = CreateSleepTime.Field()
+    delete_sleep_time = DeleteSleepTime.Field()
 
 
 # map the queries and the mutations to a schema
