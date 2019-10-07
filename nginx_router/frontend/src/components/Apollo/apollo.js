@@ -44,7 +44,7 @@ class Apollo {
       mutation: MUTATIONS.ADD_SLEEP_TIME,
       variables: {
         uid: uid,
-        input: sleepTime
+        sleepTime: sleepTime
       }
     });
 }
