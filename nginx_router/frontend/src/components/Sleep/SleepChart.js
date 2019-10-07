@@ -75,7 +75,7 @@ class SleepChart extends React.Component {
     const latestSleep = sortedTimes[sortedTimes.length - 1];
     // debug
     console.log("fetched latest sleep:");
-    console.log(latestSleep);
+    console.log(latestSleep.start.toISOString());
     console.log("");
 
     // update state with new sorted times and latest sleep => needed in next steps of didMount
