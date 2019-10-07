@@ -17,7 +17,7 @@ Also routing is done in the NGINX router to accomplish the websocket connection 
 
 You're correct in assuming this project was setup using a bootstrapping tool. I built the tool:
 
-- [Synth](https://github.com/bennettdixon/synth) and was made for creating containerized web apps quickly with modular components.
+- [Synth](https://github.com/bennettdixon/synth) was made for creating containerized web apps quickly with modular components.
 
 ## :wrench: Setup
 
