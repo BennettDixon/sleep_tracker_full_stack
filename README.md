@@ -46,9 +46,11 @@ docker exec -it <container-id/name> psql -U postgres -f /app/pgsetup.sql
 
 Once the role is created the backend will load the test data into postgres after performing the migrations; this is all you need to do!
 
-Visit the GraphQL endpoint `localhost:8800/graphql` and play with GraphQL Queries!
+The React view is located at `localhost:8800/`
 
-Feel free to add objects to the `/nginx_router/backend/books.json` file for further testing! They will be loaded in each time you boot the containers.
+Visit the GraphQL endpoint `localhost:8800/graphql/v1/` and play with GraphQL Queries if you wish!
+
+Feel free to add objects to the `/nginx_router/backend/testdata.json` file for further testing! They will be loaded in each time you boot the containers.
 
 ### Shutting it down
 
