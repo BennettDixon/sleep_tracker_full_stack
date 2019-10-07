@@ -72,10 +72,17 @@ class SleepChart extends React.Component {
   componentDidMount() {
     // set the weekSleepTimes to default of today being end of week
     var utcNow = new Date();
+
+    var weekSleepTimes = this.getWeekTimes(utcNow);
+    weekSleepTimes = weekSleepTimes.sort(SleepTime.sortByTime);
+
+    var monthSleepTimes = this.getMonthTimes(utcNow);
+    monthSleepTimes = monthSleepTimes.sort(SleepTime.sortByTime);
     this.setState({
-      weekSleepTimes: this.getWeekTimes(utcNow),
-      monthSleepTimes: this.getMonthTimes(utcNow)
+      weekSleepTimes,
+      monthSleepTimes
     });
+    console.log(this.state);
   }
 
   /**
