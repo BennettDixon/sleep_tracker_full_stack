@@ -1,7 +1,8 @@
 import { getDateTime } from "../constants/utils";
 
 class SleepTime {
-  constructor(startStr, stopStr) {
+  constructor(id, startStr, stopStr) {
+    this.id = id;
     this.start = getDateTime(startStr);
     console.log(startStr, this.start.toISOString());
     this.stop = getDateTime(stopStr);
