@@ -8,6 +8,7 @@ import {
 } from "../TimeText";
 
 const DayChart = ({ sleepTime }) => {
+  console.log(sleepTime);
   return (
     <div>
       <h1>Last Sleep</h1>

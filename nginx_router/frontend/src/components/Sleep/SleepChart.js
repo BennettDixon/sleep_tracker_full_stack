@@ -67,8 +67,8 @@ class SleepChart extends React.Component {
   }
 
   componentDidMount() {
-    var utcNow = new Date();
-
+    var now = new Date();
+    console.log(now.toISOString());
     const sortedTimes = this.props.sleepTimes.sort(SleepTime.sortByTime);
 
     // grab last ele of sorted array
@@ -81,10 +81,10 @@ class SleepChart extends React.Component {
     // update state with new sorted times and latest sleep => needed in next steps of didMount
     this.setState({ sleepTimes: sortedTimes, latestSleep: latestSleep });
 
-    var weekSleepTimes = this.getWeekTimes(utcNow);
+    var weekSleepTimes = this.getWeekTimes(now);
     weekSleepTimes = weekSleepTimes.sort(SleepTime.sortByTime);
 
-    var monthSleepTimes = this.getMonthTimes(utcNow);
+    var monthSleepTimes = this.getMonthTimes(now);
     monthSleepTimes = monthSleepTimes.sort(SleepTime.sortByTime);
 
     this.setState({
