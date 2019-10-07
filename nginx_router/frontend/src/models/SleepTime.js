@@ -35,7 +35,6 @@ class SleepTime {
       return 0;
     } else if (a.start < b.start) {
       // if date a is before date b it should come first
-      console.log("a comes first");
       return -1;
     }
     // a > b
@@ -65,13 +64,16 @@ class SleepTime {
     return Math.round(totalMinutes - roundedHours * 60);
   }
 
+  static verifyDay(date, validationDate) {
+    var endDay = validationDate.getDate();
+    var instanceDay = date.getDate();
+    return endDay === instanceDay ? true : false;
+  }
+
   static verifyYear(date, validationDate) {
     var endYear = validationDate.getFullYear();
     var instanceYear = date.getFullYear();
-    if (instanceYear === endYear) {
-      return true;
-    }
-    return false;
+    return instanceYear === endYear ? true : false;
   }
 
   /**
