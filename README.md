@@ -25,7 +25,7 @@ Clone the project
 
 ```
 git clone https://github.com/BennettDixon/tellus_takehome;
-cd tellus-takehome;
+cd tellus_takehome;
 ```
 
 Run the container network, this will build them the first time so be patient while images are downloaded and containers are built

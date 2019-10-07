@@ -29,7 +29,7 @@ const VIEW_MODES = {
  *
  * @param {*} prop setViewMode (required prop) function to set the view mode
  */
-const DateSpanSelector = ({ setViewMode }) => {
+const DateSpanSelector = ({ setViewMode, create }) => {
   return (
     <ButtonGroup className="date-span-group">
       <Button
@@ -52,6 +52,7 @@ const DateSpanSelector = ({ setViewMode }) => {
       >
         M
       </Button>
+      <Button onClick={create}>+</Button>
     </ButtonGroup>
   );
 };
@@ -153,10 +154,30 @@ class SleepChart extends React.Component {
     this.setState({ viewMode: mode });
   };
 
+  createSleepTime = event => {
+    // TODO replace with modal prompting for time
+    const start = new Date().toISOString();
+    const stop = new Date().toISOString();
+    this.props.apollo
+      .createSleepTime(this.props.uid, {
+        start: start,
+        stop: stop
+      })
+      .then(resp => {
+        console.log(resp);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
   render() {
     return (
       <div className="sleep-chart-container">
-        <DateSpanSelector setViewMode={this.setViewMode} />
+        <DateSpanSelector
+          setViewMode={this.setViewMode}
+          create={this.createSleepTime}
+        />
 
         <div className="data-view">
           {this.state.viewMode === VIEW_MODES.DAY ? (
@@ -220,7 +241,11 @@ class SleepChartPage extends React.Component {
         {this.props.uid &&
         this.state.sleepTimes &&
         this.state.sleepTimes.length > 0 ? (
-          <SleepChart sleepTimes={this.state.sleepTimes} />
+          <SleepChart
+            sleepTimes={this.state.sleepTimes}
+            apollo={this.props.apollo}
+            uid={this.props.uid}
+          />
         ) : (
           <LoadingPage />
         )}
