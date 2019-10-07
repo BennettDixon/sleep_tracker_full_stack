@@ -78,12 +78,22 @@ class SleepChart extends React.Component {
     });
   }
 
+  /**
+   * sets state for week times from weekEndDate - 7
+   *
+   * @param {*} weekEndDate the end of the week, fetches 7 days back
+   */
   getWeekTimes(weekEndDate) {
     var weekSleepTimes = [];
-    var weekEndUTC = weekEndDate.getUTCDate();
+    var weekStartDate = new Date(
+      weekEndDate.getFullYear(),
+      weekEndDate.getMonth(),
+      weekEndDate.getDate() - 7
+    );
+    console.log("week start date: " + weekStartDate);
 
     this.props.sleepTimes.forEach(sleepTime => {
-      if (sleepTime.start.getMonth() === weekEndUTC) {
+      if (sleepTime.start > weekStartDate) {
         weekSleepTimes.push(sleepTime);
       }
     });
@@ -95,12 +105,7 @@ class SleepChart extends React.Component {
     var monthSleepTimes = [];
 
     this.props.sleepTimes.forEach(sleepTime => {
-      var endMonth = monthEndDate.getMonth();
-      var instanceMonth = sleepTime.start.getMonth();
-      var endYear = monthEndDate.getFullYear();
-      var instanceYear = sleepTime.start.getFullYear();
-
-      if (instanceMonth === endMonth && instanceYear === endYear) {
+      if (SleepTime.verifyMonthAndYear(sleepTime.start, monthEndDate)) {
         monthSleepTimes.push(sleepTime);
       }
     });
