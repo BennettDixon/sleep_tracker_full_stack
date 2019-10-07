@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 
 import LoadingPage from "../LoadingPage";
 import DayChart from "./DayChart";
-import WeekChart from "./WeekChart";
+import TimeSpanChart from "./TimeSpanChart";
 import MonthChart from "./MonthChart";
 
 import { withApollo } from "../Apollo";
@@ -55,6 +55,8 @@ const DateSpanSelector = ({ setViewMode }) => {
 // BEGIN SleepChart class
 var INITIAL_STATE = {
   sleepTimes: [],
+  weekSleepTimes: [],
+  monthSleepTimes: [],
   viewMode: VIEW_MODES.DAY
 };
 // Reuseable SleepChart component
@@ -63,9 +65,43 @@ class SleepChart extends React.Component {
     super(props);
     // if passed via props
     if (props.sleepTimes !== undefined) {
-      INITIAL_STATE.sleepTimes = props.sleepTimes;
+      INITIAL_STATE.sleepTimes = this.props.sleepTimes;
     }
     this.state = INITIAL_STATE;
+  }
+
+  componentDidMount() {
+    // set the weekSleepTimes to default of today being end of week
+    var utcNow = new Date();
+    this.setState({
+      weekSleepTimes: this.getWeekTimes(utcNow),
+      monthSleepTimes: this.getMonthTimes(utcNow)
+    });
+  }
+
+  getWeekTimes(weekEndDate) {
+    var weekSleepTimes = [];
+    var weekEndUTC = weekEndDate.getUTCDate();
+    this.props.sleepTimes.forEach(sleepTime => {
+      if (sleepTime.start.getMonth() === weekEndUTC) {
+        weekSleepTimes.push(sleepTime);
+      }
+    });
+    return weekSleepTimes;
+  }
+
+  getMonthTimes(monthEndDate) {
+    var monthSleepTimes = [];
+    this.props.sleepTimes.forEach(sleepTime => {
+      if (
+        sleepTime.start.getMonth() === monthEndDate.getMonth() &&
+        sleepTime.start.getFullYear() === monthEndDate.getFullYear
+      ) {
+        console.log("is day");
+        monthSleepTimes.push(sleepTime);
+      }
+    });
+    return monthSleepTimes;
   }
 
   setViewMode = (mode, event) => {
@@ -73,7 +109,6 @@ class SleepChart extends React.Component {
   };
 
   render() {
-    console.log(this.state.viewMode);
     return (
       <div className="sleep-chart-container">
         <DateSpanSelector setViewMode={this.setViewMode} />
@@ -82,9 +117,15 @@ class SleepChart extends React.Component {
           {this.state.viewMode === VIEW_MODES.DAY ? (
             <DayChart sleepTime={this.state.sleepTimes[0]} />
           ) : this.state.viewMode === VIEW_MODES.WEEK ? (
-            <WeekChart sleepTimes={this.state.sleepTimes} />
+            <TimeSpanChart
+              sleepTimes={this.state.weekSleepTimes}
+              chartHeader="This Week"
+            />
           ) : (
-            <MonthChart sleepTimes={this.state.sleepTimes} />
+            <TimeSpanChart
+              sleepTimes={this.state.monthSleepTimes}
+              chartHeader="This Month"
+            />
           )}
         </div>
       </div>
