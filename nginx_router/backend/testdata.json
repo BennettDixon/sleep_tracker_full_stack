@@ -28,8 +28,17 @@
     "model": "synth_app.SleepTime",
     "pk": 3,
     "fields": {
-      "start": "2019-09-03T22:00:30Z",
-      "stop": "2019-09-04T07:20:30Z",
+      "start": "2019-10-03T22:00:30Z",
+      "stop": "2019-10-04T07:20:30Z",
+      "owner": 1
+    }
+  },
+  {
+    "model": "synth_app.SleepTime",
+    "pk": 4,
+    "fields": {
+      "start": "2019-10-04T22:00:30Z",
+      "stop": "2019-10-05T07:30:30Z",
       "owner": 1
     }
   }
