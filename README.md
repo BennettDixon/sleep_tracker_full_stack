@@ -46,7 +46,7 @@ docker exec -it <container-id/name> psql -U postgres -f /app/pgsetup.sql
 
 Once the role is created the backend will load the test data into postgres after performing the migrations; this is all you need to do!
 
-The React view is located at `localhost:8800/`
+The React view is located at `localhost:8800`
 
 Visit the GraphQL endpoint `localhost:8800/graphql/v1/` and play with GraphQL Queries if you wish!
 
