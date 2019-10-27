@@ -30,8 +30,8 @@ Also UAM is not implemented to keep things simple. The user is hard coded to a u
 Clone the project
 
 ```
-git clone https://github.com/BennettDixon/tellus_takehome;
-cd tellus_takehome;
+git clone https://github.com/BennettDixon/sleep_tracker_full_stack;
+cd sleep_tracker_full_stack;
 ```
 
 Run the container network, this will build them the first time so be patient while images are downloaded and containers are built
